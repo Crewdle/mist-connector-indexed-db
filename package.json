@@ -1,6 +1,6 @@
 {
   "name": "@crewdle/mist-connector-indexed-db",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Crewdle Mist connector to use IndexedDB as a Key-Value Database",
   "main": "src/index.ts",
   "scripts": {

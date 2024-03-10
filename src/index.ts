@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 
-import { ValueTypeOmitId, IDatabaseTableQuery, IDatabaseTableQueryWhereValue, IDatabaseTableQueryWhereValues, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseMigrationHandle, IKeyValueDatabaseTableConnector, QueryBuilder } from '@crewdle/web-sdk';
+import { ValueTypeOmitId, IDatabaseTableQuery, IDatabaseTableQueryWhereValue, IDatabaseTableQueryWhereValues, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseMigrationHandle, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
 
 /**
  * The indexedDB key-value database connector - Connect to an indexedDB database.
@@ -219,19 +219,7 @@ export class IDBDatabaseTableConnector<T extends IValueType> implements IKeyValu
    * @param query The query.
    * @returns A promise that resolves with the values.
    */
-  async list(query?: IDatabaseTableQuery | QueryBuilder): Promise<T[]> {
-    try {
-      if (query) {
-        if (query instanceof QueryBuilder) {
-          query = query.getQuery();
-        } else {
-          query = QueryBuilder.buildQuery(query).getQuery();
-        }
-      }
-    } catch (e) {
-      throw new Error('Invalid query');
-    }
-
+  async list(query?: IDatabaseTableQuery): Promise<T[]> {
     try {
       const transaction = this.db.transaction(this.tableName, 'readonly');
       const store = transaction.objectStore(this.tableName);
@@ -269,19 +257,7 @@ export class IDBDatabaseTableConnector<T extends IValueType> implements IKeyValu
    * @param query The query.
    * @returns A promise that resolves with the count.
    */
-  async count(query?: IDatabaseTableQuery | QueryBuilder): Promise<number> {
-    try {
-      if (query) {
-        if (query instanceof QueryBuilder) {
-          query = query.getQuery();
-        } else {
-          query = QueryBuilder.buildQuery(query).getQuery();
-        }
-      }
-    } catch (e) {
-      throw new Error('Invalid query');
-    }
-
+  async count(query?: IDatabaseTableQuery): Promise<number> {
     const transaction = this.db.transaction(this.tableName, 'readonly');
     const store = transaction.objectStore(this.tableName);
 
