@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "esnext",
+    "lib": ["es6", "dom"],
+
+    /* Modules */
+    "module": "esnext",
+    "moduleResolution": "Node",
+    "baseUrl": "src/",
+
+    /* Emit */
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+
+    /* Completeness */
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+}

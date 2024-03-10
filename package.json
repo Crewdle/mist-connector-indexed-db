@@ -1,10 +1,11 @@
 {
   "name": "@crewdle/mist-connector-indexed-db",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Crewdle Mist connector to use IndexedDB as a Key-Value Database",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack build --mode=production && mv src/index.d.ts dist/index.d.ts"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,13 @@
     "@crewdle/web-sdk": "^0.1.0-beta.5"
   },
   "files": [
-    "src/"
-  ]
+    "dist/"
+  ],
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.2",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
+  }
 }
