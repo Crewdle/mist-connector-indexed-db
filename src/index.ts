@@ -4,6 +4,7 @@ import { ValueTypeOmitId, IDatabaseTableQuery, IDatabaseTableQueryWhereValue, ID
 
 /**
  * The indexedDB key-value database connector - Connect to an indexedDB database.
+ * @category Connector
  */
 export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
   /**
@@ -131,6 +132,7 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
 
 /**
  * The indexedDB database table connector - Connect to a table in an indexedDB database.
+ * @category Connector
  */
 export class IDBDatabaseTableConnector<T extends IValueType> implements IKeyValueDatabaseTableConnector<T> {
   /**
