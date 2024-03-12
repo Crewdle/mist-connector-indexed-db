@@ -37,32 +37,7 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
         const db = target.result;
         const transaction = target.transaction;
 
-        migration({
-          getTables: () => Array.from(db.objectStoreNames),
-          hasTable: (tableName) => db.objectStoreNames.contains(tableName),
-          createTable: (tableName) => {
-            db.createObjectStore(tableName, { keyPath: 'id' });
-          },
-          deleteTable: (tableName) => {
-            db.deleteObjectStore(tableName);
-          },
-          getIndexes: (tableName) => {
-            const store = transaction?.objectStore(tableName);
-            return Array.from(store?.indexNames ?? []);
-          },
-          hasIndex: (tableName, indexKeyPath) => {
-            const store = transaction?.objectStore(tableName);
-            return store?.indexNames.contains(indexKeyPath) ?? false;
-          },
-          createIndex: (tableName, indexKeyPath) => {
-            const store = transaction?.objectStore(tableName);
-            store?.createIndex(indexKeyPath, indexKeyPath);
-          },
-          deleteIndex: (tableName, indexKeyPath) => {
-            const store = transaction?.objectStore(tableName);
-            store?.deleteIndex(indexKeyPath);
-          },
-        })
+        migration(createMigrationHandle(db, transaction));
       };
 
       request.onsuccess = () => {
@@ -454,4 +429,40 @@ async function* idbCursor<T>(request: IDBRequest<IDBCursorWithValue | null>, { l
     yield result.value;
     result.continue();
   }
+}
+
+/**
+ * Creates a migration handle.
+ * @param db The IndexedDB database.
+ * @param transaction The IndexedDB transaction.
+ * @returns A migration handle.
+ * @ignore
+ */
+function createMigrationHandle(db: IDBDatabase, transaction: IDBTransaction | null): IKeyValueDatabaseMigrationHandle {
+  return {
+    getTables: (): string[] => Array.from(db.objectStoreNames),
+    hasTable: (tableName: string): boolean => db.objectStoreNames.contains(tableName),
+    createTable: (tableName: string): void => {
+      db.createObjectStore(tableName, { keyPath: 'id' });
+    },
+    deleteTable: (tableName: string): void => {
+      db.deleteObjectStore(tableName);
+    },
+    getIndexes: (tableName: string): string[] => {
+      const store = transaction?.objectStore(tableName);
+      return Array.from(store?.indexNames ?? []);
+    },
+    hasIndex: (tableName: string, indexKeyPath: string): boolean => {
+      const store = transaction?.objectStore(tableName);
+      return store?.indexNames.contains(indexKeyPath) ?? false;
+    },
+    createIndex: (tableName: string, indexKeyPath: string): void => {
+      const store = transaction?.objectStore(tableName);
+      store?.createIndex(indexKeyPath, indexKeyPath);
+    },
+    deleteIndex: (tableName: string, indexKeyPath: string): void => {
+      const store = transaction?.objectStore(tableName);
+      store?.deleteIndex(indexKeyPath);
+    },
+  };
 }
