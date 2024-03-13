@@ -1,6 +1,7 @@
 import { ValueTypeOmitId, IDatabaseTableQuery, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseMigrationHandle, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
 /**
  * The indexedDB key-value database connector - Connect to an indexedDB database.
+ * @category Connector
  */
 export declare class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
     private readonly dbKey;
@@ -46,6 +47,7 @@ export declare class IDBDatabaseConnector implements IKeyValueDatabaseConnector 
 }
 /**
  * The indexedDB database table connector - Connect to a table in an indexedDB database.
+ * @category Connector
  */
 export declare class IDBDatabaseTableConnector<T extends IValueType> implements IKeyValueDatabaseTableConnector<T> {
     private readonly db;
