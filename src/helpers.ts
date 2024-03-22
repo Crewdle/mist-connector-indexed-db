@@ -60,27 +60,3 @@ export async function* idbCursor<T>(request: IDBRequest<IDBCursorWithValue | nul
     result.continue();
   }
 }
-
-/**
- * Creates a migration handle.
- * @param db The IndexedDB database.
- * @param transaction The IndexedDB transaction.
- * @returns A migration handle.
- * @ignore
- */
-export function createMigrationHandle(db: IDBDatabase, transaction: IDBTransaction | null): IKeyValueDatabaseMigrationHandle {
-  return {
-    getTables: (): string[] => Array.from(db.objectStoreNames),
-    hasTable: (tableName: string): boolean => db.objectStoreNames.contains(tableName),
-    createTable: (tableName: string): void => {
-      db.createObjectStore(tableName, { keyPath: 'id' });
-    },
-    deleteTable: (tableName: string): void => {
-      db.deleteObjectStore(tableName);
-    },
-    getIndexes: (tableName: string): string[] => {
-      const store = transaction?.objectStore(tableName);
-      return Array.from(store?.indexNames ?? []);
-    },
-  };
-}

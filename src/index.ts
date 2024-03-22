@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 
 import type { ValueTypeOmitId, IDatabaseTableQuery, IDatabaseTableQueryWhereValue, IDatabaseTableQueryWhereValues, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseMigrationHandle, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
 
-import { createMigrationHandle, idbRequest, idbCursor } from './helpers';
+import { idbRequest, idbCursor } from './helpers';
 
 /**
  * The indexedDB key-value database connector - Connect to an indexedDB database.
@@ -30,7 +30,7 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
    * @param migration The migration function.
    * @returns A promise that resolves when the database is open.
    */
-  async open(migration: (db: IKeyValueDatabaseMigrationHandle) => void, reservedTables: string[]): Promise<void> {
+  async open(): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbKey, this.layout.version);
 
@@ -39,13 +39,7 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
         const db = target.result;
         const transaction = target.transaction;
 
-        migration(createMigrationHandle(db, transaction));
-
         for (const tableName in this.layout.tables) {
-          if (reservedTables.includes(tableName)) {
-            throw new Error('Table name reserved');
-          }
-  
           const table = this.layout.tables[tableName];
           const store = transaction?.objectStore(tableName);
           if (db.objectStoreNames.contains(tableName)) {
@@ -54,20 +48,26 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
                 store?.createIndex(index.keyPath, index.keyPath);
               }
             });
-  
+
             for (const index of Array.from(store?.indexNames ?? [])) {
               if (!table.indexes?.find((i) => i.keyPath === index)) {
                 store?.deleteIndex(index);
               }
             }
-  
+
             continue;
           }
-  
+
           db.createObjectStore(tableName, { keyPath: 'id' });
           table.indexes?.forEach((index) => {
             store?.createIndex(index.keyPath, index.keyPath);
           });
+
+          for (const table in db.objectStoreNames) {
+            if (!this.layout.tables[table]) {
+              db.deleteObjectStore(table);
+            }
+          }
         }
       };
 
@@ -129,7 +129,7 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
     }
 
     if (!this.hasTable(tableName)) {
-      throw new Error(`Table ${tableName} does not exist`);
+      throw new Error(`Table '${tableName}' does not exist`);
     }
 
     return new IDBDatabaseTableConnector<T>(this.db, tableName);

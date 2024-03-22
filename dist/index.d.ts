@@ -1,4 +1,4 @@
-import { ValueTypeOmitId, IDatabaseTableQuery, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseMigrationHandle, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
+import type { ValueTypeOmitId, IDatabaseTableQuery, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
 /**
  * The indexedDB key-value database connector - Connect to an indexedDB database.
  * @category Connector
@@ -22,7 +22,7 @@ export declare class IDBDatabaseConnector implements IKeyValueDatabaseConnector 
      * @param migration The migration function.
      * @returns A promise that resolves when the database is open.
      */
-    open(migration: (db: IKeyValueDatabaseMigrationHandle) => void): Promise<void>;
+    open(): Promise<void>;
     /**
      * Closes the database.
      */
