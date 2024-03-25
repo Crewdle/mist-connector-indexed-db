@@ -20,13 +20,11 @@
   "dependencies": {
     "uuid": "^9.0.1"
   },
-  "peerDependencies": {
-    "@crewdle/web-sdk": "^0.1.5"
-  },
   "files": [
     "dist/"
   ],
   "devDependencies": {
+    "@crewdle/web-sdk-types": "^1.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.2",
     "webpack": "^5.90.3",

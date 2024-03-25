@@ -1,4 +1,4 @@
-import type { ValueTypeOmitId, IDatabaseTableQuery, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
+import type { ValueTypeOmitId, IDatabaseTableQuery, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk-types';
 /**
  * The indexedDB key-value database connector - Connect to an indexedDB database.
  * @category Connector

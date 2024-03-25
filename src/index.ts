@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 
-import type { ValueTypeOmitId, IDatabaseTableQuery, IDatabaseTableQueryWhereValue, IDatabaseTableQueryWhereValues, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseMigrationHandle, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk';
+import type { ValueTypeOmitId, IDatabaseTableQuery, IDatabaseTableQueryWhereValue, IDatabaseTableQueryWhereValues, IValueType, IDatabaseLayout, IKeyValueDatabaseConnector, IKeyValueDatabaseTableConnector } from '@crewdle/web-sdk-types';
 
 import { idbRequest, idbCursor } from './helpers';
 

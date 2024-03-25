@@ -1,4 +1,4 @@
-import { IDatabaseTableQuery } from '@crewdle/web-sdk';
+import { IDatabaseTableQuery } from '@crewdle/web-sdk-types';
 /**
  * Gets a promise from an IndexedDB request.
  * @param request The IndexedDB request.
