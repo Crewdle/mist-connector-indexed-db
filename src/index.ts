@@ -39,10 +39,14 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
         const db = target.result;
         const transaction = target.transaction;
 
+        if (!transaction) {
+          throw new Error('Transaction not found');
+        }
+
         for (const tableName in this.layout.tables) {
           const table = this.layout.tables[tableName];
-          const store = transaction?.objectStore(tableName);
           if (db.objectStoreNames.contains(tableName)) {
+            const store = transaction?.objectStore(tableName);
             table.indexes?.forEach((index) => {
               if (!store?.indexNames.contains(index.keyPath)) {
                 store?.createIndex(index.keyPath, index.keyPath);
@@ -58,15 +62,15 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
             continue;
           }
 
-          db.createObjectStore(tableName, { keyPath: 'id' });
+          const store = db.createObjectStore(tableName, { keyPath: 'id' });
           table.indexes?.forEach((index) => {
             store?.createIndex(index.keyPath, index.keyPath);
           });
+        }
 
-          for (const table in db.objectStoreNames) {
-            if (!this.layout.tables[table]) {
-              db.deleteObjectStore(table);
-            }
+        for (const table of Object.values(db.objectStoreNames)) {
+          if (!this.layout.tables[table]) {
+            db.deleteObjectStore(table);
           }
         }
       };
@@ -107,15 +111,7 @@ export class IDBDatabaseConnector implements IKeyValueDatabaseConnector {
    * @param tableName The table name.
    */
   createTable(tableName: string): void {
-    if (!this.db) {
-      throw new Error('Database not open');
-    }
-
-    if (this.hasTable(tableName)) {
-      throw new Error(`Table ${tableName} already exists`);
-    }
-
-    this.db.createObjectStore(tableName, { keyPath: 'id' });
+    throw new Error('Operation not supported');
   }
 
   /**

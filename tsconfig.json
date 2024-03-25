@@ -11,6 +11,7 @@
 
     /* Emit */
     "declaration": true,
+    "outDir": "dist/",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
