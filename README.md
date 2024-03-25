@@ -17,11 +17,11 @@ npm install @crewdle/mist-connector-indexed-db
 ## Usage
 
 ```TypeScript
-import { IDBDatabaseTableConnector } from '@crewdle/mist-connector-indexed-db';
+import { IDBDatabaseConnector } from '@crewdle/mist-connector-indexed-db';
 
 // Create a new SDK instance
 const sdk = await SDK.getInstance('[VENDOR ID]', '[ACCESS TOKEN]', {
-  keyValueDatabaseConnector: IDBDatabaseTableConnector,
+  keyValueDatabaseConnector: IDBDatabaseConnector,
 });
 ```
 
