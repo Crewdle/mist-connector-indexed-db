@@ -25,6 +25,7 @@
   ],
   "devDependencies": {
     "@crewdle/web-sdk-types": "^1.0.0",
+    "@types/uuid": "^9.0.8",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.2",
     "webpack": "^5.90.3",
